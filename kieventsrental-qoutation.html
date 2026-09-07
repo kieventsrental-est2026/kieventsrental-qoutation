@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KI Events Rental Quotation</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #fafafc;
+  }
+  h1 {
+    text-align: left;
+  }
+  #itemsContainer {
+    margin-top: 20px;
+  }
+  .item-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  select, input[type=number] {
+    margin-right: 10px;
+    padding: 5px;
+  }
+  /* Style for the button container */
+  #buttonsContainer {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  button {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  #total {
+    font-size: 1.5em;
+    margin-top: 20px;
+    text-align: left;
+  }
+  #deliveryFeeContainer {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+  }
+  #deliveryFeeContainer label {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h1>KI Events Rental Quotation</h1>
+
+<div id="itemsContainer">
+  <!-- Dynamic item selections will appear here -->
+</div>
+
+<!-- Buttons container: "Add Item" and "Calculate Total" -->
+<div id="buttonsContainer">
+  <button onclick="addItem()">Add Item</button>
+  <button onclick="calculateTotal()">Calculate Total</button>
+</div>
+
+<!-- Delivery Fee input -->
+<div id="deliveryFeeContainer">
+  <label for="deliveryFee">Delivery Fee (Delivery and Pickup Return): ₱</label>
+  <input type="number" id="deliveryFee" min="0" value="0" />
+</div>
+
+<!-- Total display -->
+<div id="total">Total: ₱0</div>
+
+<script>
+  // Sample catalog list
+  const catalog = [
+    { name: "Set A", price: 680 },
+    { name: "Set B", price: 1015 },
+    { name: "Set C", price: 1340 },
+    { name: "Set D", price: 1675 },
+    { name: "Monoblocks Chair", price: 15 },
+    { name: "Chair Cover", price: 15 },
+    { name: "Long Table 4ft", price: 125 },
+    { name: "Long Table Cover 4ft", price: 30 },
+    { name: "Long Table 6ft", price: 165 },
+    { name: "Long Table Cover 6ft", price: 40 },
+    { name: "8 Seater - Round Table with Cover", price: 280 },
+    { name: "10 Seater - Round Table with Cover", price: 350 },
+    { name: "Runners", price: 20 },
+    { name: "Chair Ribbon", price: 20 },
+    { name: "Toppers", price: 30 },
+    { name: "Centerpiece", price: 20 },
+    { name: "Kiddie Set", price: 700 },
+    { name: "Kiddie Tables", price: 125 },
+    { name: "Kiddie Table Cover", price: 20 },
+    { name: "Kiddie Cahir", price: 20 },
+    { name: "Chaffing Dish/Foodwarmer", price: 380 },
+    { name: "Videoke - Set A (Basic)", price: 999 },
+    { name: "Videoke - Set B (Modern)", price: 1399 },
+    { name: "Videoke - Set C (Premium)", price: 1899 },
+    { name: "Tent 2mx2m", price: 400 },
+    { name: "Tent 2mx3m", price: 550 },
+    { name: "Tent 3mx4.5m", price: 700 },
+    { name: "Tent 4mx6m", price: 950 },
+    { name: "Tent Side Cover", price: 50 }
+  ];
+
+  // Function to create a new item row
+  function createItemRow() {
+    const div = document.createElement('div');
+    div.className = 'item-row';
+
+    const select = document.createElement('select');
+    const defaultOption = document.createElement('option');
+    defaultOption.text = '-- Select an item --';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    defaultOption.value = "";
+    select.appendChild(defaultOption);
+
+    catalog.forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.price;
+      option.text = item.name + ' (₱' + item.price + ')';
+      select.appendChild(option);
+    });
+    select.addEventListener('change', calculateTotal);
+
+    const qtyInput = document.createElement('input');
+    qtyInput.type = 'number';
+    qtyInput.min = '1';
+    qtyInput.value = '1';
+    qtyInput.addEventListener('change', calculateTotal);
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.onclick = () => {
+      div.remove();
+    };
+
+    div.appendChild(select);
+    div.appendChild(qtyInput);
+    div.appendChild(removeBtn);
+
+    return div;
+  }
+
+  // Function to add a new item
+  function addItem() {
+    const container = document.getElementById('itemsContainer');
+    const row = createItemRow();
+    container.appendChild(row);
+  }
+
+  // Function to calculate total, only triggered by button
+  function calculateTotal() {
+    const rows = document.querySelectorAll('.item-row');
+    let totalItems = 0;
+    rows.forEach(row => {
+      const select = row.querySelector('select');
+      const qtyInput = row.querySelector('input[type=number]');
+      const price = parseFloat(select.value);
+      const qty = parseInt(qtyInput.value) || 0;
+      if (select.value) {
+        totalItems += price * qty;
+      }
+    });
+    const deliveryFee = parseFloat(document.getElementById('deliveryFee').value) || 0;
+    const grandTotal = totalItems + deliveryFee;
+    document.getElementById('total').innerText = 'Total: ₱' + grandTotal.toFixed(2);
+  }
+
+  // Initialize with one item
+  window.onload = () => {
+    addItem();
+  };
+</script>
+
+</body>
+</html>
