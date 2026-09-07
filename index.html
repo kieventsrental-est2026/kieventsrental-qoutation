@@ -101,19 +101,44 @@
 </div>
 
 <div id="deliveryFeeContainer">
-  <label for="deliveryFee"><strong>Delivery & Pickup Fee:</strong> ₱</label>
+  <label for="deliveryFee"><strong>Delivery & Return Fee:</strong> ₱</label>
   <input type="number" id="deliveryFee" min="0" value="0" />
 </div>
 
 <div id="total">Total: ₱0</div>
 
 <script>
+  // Sample catalog list
   const catalog = [
     { name: "Set A", price: 680 },
     { name: "Set B", price: 1015 },
     { name: "Set C", price: 1340 },
     { name: "Set D", price: 1675 },
     { name: "Monoblocks Chair", price: 15 },
+    { name: "Chair Cover", price: 15 },
+    { name: "Long Table 4ft", price: 125 },
+    { name: "Long Table Cover 4ft", price: 30 },
+    { name: "Long Table 6ft", price: 165 },
+    { name: "Long Table Cover 6ft", price: 40 },
+    { name: "8 Seater - Round Table with Cover", price: 280 },
+    { name: "10 Seater - Round Table with Cover", price: 350 },
+    { name: "Runners", price: 20 },
+    { name: "Chair Ribbon", price: 20 },
+    { name: "Toppers", price: 30 },
+    { name: "Centerpiece", price: 20 },
+    { name: "Kiddie Set", price: 700 },
+    { name: "Kiddie Tables", price: 125 },
+    { name: "Kiddie Table Cover", price: 20 },
+    { name: "Kiddie Cahir", price: 20 },
+    { name: "Chaffing Dish/Foodwarmer", price: 380 },
+    { name: "Videoke - Set A (Basic)", price: 999 },
+    { name: "Videoke - Set B (Modern)", price: 1399 },
+    { name: "Videoke - Set C (Premium)", price: 1899 },
+    { name: "Tent 2mx2m", price: 400 },
+    { name: "Tent 2mx3m", price: 550 },
+    { name: "Tent 3mx4.5m", price: 700 },
+    { name: "Tent 4mx6m", price: 950 },
+    { name: "Tent Side Cover", price: 50 }
     // ... add your items here
   ];
 
@@ -143,7 +168,7 @@
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.className = 'btn';
-    removeBtn.style.backgroundColor = '#c0392b';
+    removeBtn.style.backgroundColor = '#FFCCCB';
     removeBtn.onclick = () => {
       card.remove();
     };
